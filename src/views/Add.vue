@@ -1,13 +1,13 @@
 <template>
-  <TimeLine/>
+  <Add/>
 </template>
 
 <script>
-  import TimeLine from '../components/TimeLine'
+  import Add from '../components/Add'
 
   export default {
     components: {
-      TimeLine
+      Add
     }
   }
 </script>

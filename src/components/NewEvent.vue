@@ -9,7 +9,15 @@
           </v-card-title>
           <v-card-text>
             <v-flex xs8 offset-xs1>
-              <v-text-field v-model="pin" :append-icon="show1 ? 'visibility_off' : 'visibility'" :type="show1 ? 'text' : 'password'" name="PIN" label="PIN" hint="Enter your pin" @click:append="show1 = !show1"></v-text-field>
+              <v-text-field
+                v-model="pin"
+                :append-icon="show1 ? 'visibility_off' : 'visibility'"
+                :type="show1 ? 'text' : 'password'"
+                name="PIN"
+                label="PIN"
+                hint="Enter your pin"
+                @click:append="show1 = !show1"
+              ></v-text-field>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
@@ -25,9 +33,7 @@
           </v-card-title>
           <v-card-text>
             <v-flex xs10 offset-xs1>
-              <v-alert :value="true" type="error">
-                {{errorMsg}}
-              </v-alert>
+              <v-alert :value="true" type="error">{{errorMsg}}</v-alert>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
@@ -38,9 +44,7 @@
           </v-card-title>
           <v-card-text>
             <v-flex xs10 offset-xs1>
-              <v-alert :value="true" type="success">
-                {{successMsg}}
-              </v-alert>
+              <v-alert :value="true" type="success">{{successMsg}}</v-alert>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
@@ -56,8 +60,21 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <v-container fluid grid-list-md>
-            <v-data-iterator :items="eventCards" :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination" content-tag="v-layout" row wrap="">
-              <v-flex slot="item" slot-scope="props" sm4 @click="selectCard(props.item)" style="cursor: pointer;">
+            <v-data-iterator
+              :items="eventCards"
+              :rows-per-page-items="rowsPerPageItems"
+              :pagination.sync="pagination"
+              content-tag="v-layout"
+              row
+              wrap=""
+            >
+              <v-flex
+                slot="item"
+                slot-scope="props"
+                sm4
+                @click="selectCard(props.item)"
+                style="cursor: pointer;"
+              >
                 <v-card>
                   <v-card-title>
                     <h4>{{ props.item.title }}</h4>
@@ -75,8 +92,17 @@
             <v-flex xs10 offset-xs1>
               <v-list>
                 <v-list-tile v-for="item in heroes" :key="item.id" avatar @click="selectHero(item)">
-                  <v-list-tile-avatar title="" size="50">
-                    <img :src="item.src">
+                  <v-list-tile-avatar title="" v-if="item.avatar == 'dwarf'" size="50">
+                    <img src="../assets/dwarf_av.jpg" alt="Dwarf Avatar">
+                  </v-list-tile-avatar>
+                  <v-list-tile-avatar title="" v-if="item.avatar == 'goblin'" size="50">
+                    <img src="../assets/goblin_av.jpg" alt="Goblin Avatar">
+                  </v-list-tile-avatar>
+                  <v-list-tile-avatar title="" v-if="item.avatar == 'human'" size="50">
+                    <img src="../assets/human_av.jpg" alt="Human Avatar">
+                  </v-list-tile-avatar>
+                  <v-list-tile-avatar title="" v-if="item.avatar == 'peon'" size="50">
+                    <img src="../assets/peon_av.jpg" alt="Peon Avatar">
                   </v-list-tile-avatar>
                   <v-list-tile-content class="ml-3">
                     <v-list-tile-title v-text="item.name" avatar></v-list-tile-title>
@@ -145,15 +171,19 @@ export default {
       ],
       selectedEvent: false,
       selectedHero: null,
-      show1: false,
+      show1: false
     };
   },
   computed: {
     stepper1Title() {
-      return this.selectedEvent ? `You ${this.selectedEvent.title.replace("..","").replace("?","!")}` : 'You ..';
+      return this.selectedEvent
+        ? `You ${this.selectedEvent.title.replace("..", "").replace("?", "!")}`
+        : "You ..";
     },
     stepper2Title() {
-      return this.selectedHero ? `And you're ${this.selectedHero.name}!` : 'Who are you?';
+      return this.selectedHero
+        ? `And you're ${this.selectedHero.name}!`
+        : "Who are you?";
     },
     heroes() {
       return this.$store.getters.heroes;
@@ -166,29 +196,33 @@ export default {
       this.e1++;
     },
     selectHero(hero) {
-      console.log('Called select hero');
+      console.log("Called select hero");
       this.selectedHero = hero;
       this.dialog = !this.dialog;
     },
     submit() {
-      console.log(this.selectedHero.pin)
-      console.log(this.pin)
+      console.log(this.selectedHero.pin);
+      console.log(this.pin);
       if (this.selectedHero.pin != this.pin) {
         this.error = true;
-        this.errorMsg = 'Wrong pin entered!';
+        this.errorMsg = "Wrong pin entered!";
       }
       if (this.selectedHero.pin == this.pin) {
         let e = {
           name: this.selectedEvent.title.replace("..", "").replace("?", "!"),
-          created: `${new Date().getFullYear()}-${new Date().getMonth() +
-    1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+          created: `${new Date().getFullYear()}-${(
+            "0" +
+            (new Date().getMonth() + 1)
+          ).slice(-2)}-${("0" + new Date().getDate()).slice(-2)} ${(
+            "0" + new Date().getHours()
+          ).slice(-2)}:${("0" + new Date().getMinutes()).slice(-2)}`,
           love: 0,
           heroId: this.selectedHero.id
         };
         console.log("Event: ", e);
         this.success = true;
-        this.successMsg = 'Cool, storing your event, hero!';
-        this.$store.dispatch('createEvent', e);
+        this.successMsg = "Cool, storing your event, hero!";
+        this.$store.dispatch("createEvent", e);
       }
     }
   },
@@ -196,18 +230,17 @@ export default {
     success(val) {
       if (val) {
         setTimeout(() => {
-        this.success = !this.success;
-        this.$router.replace('/');
-      }, 1500);
+          this.success = !this.success;
+          this.$router.replace("/");
+        }, 1500);
       }
     },
     error(val) {
-      if(val) {
+      if (val) {
         setTimeout(() => {
-        this.error = !this.error;
-      }, 1500);
+          this.error = !this.error;
+        }, 1500);
       }
-      
     }
   }
 };

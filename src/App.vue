@@ -19,7 +19,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view />
+      <router-view/>
     </v-content>
   </v-app>
 </template>
@@ -30,8 +30,8 @@ import TimeLine from "./components/TimeLine";
 export default {
   name: "App",
   created() {
-    console.log('Calling init function');
-    this.$store.dispatch('init');
+    console.log("Calling init function");
+    this.$store.dispatch("init");
   }
 };
 </script>

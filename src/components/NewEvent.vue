@@ -29,22 +29,26 @@
         </v-card>
         <v-card v-if="error && !success">
           <v-card-title class="headline red lighten-3" primary-title>
-            <v-flex xs8 offset-xs1>Error</v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-icon large color="red accent-3 mr-2">fas fa-exclamation-circle</v-icon>Whoopsie! Error
+            </v-flex>
           </v-card-title>
           <v-card-text>
             <v-flex xs10 offset-xs1>
-              <v-alert :value="true" type="error">{{errorMsg}}</v-alert>
+              <p>{{errorMsg}}</p>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
         </v-card>
         <v-card v-if="!error && success">
           <v-card-title class="headline green lighten-3" primary-title>
-            <v-flex xs8 offset-xs1>Success</v-flex>
+            <v-flex xs10 offset-xs1>
+              <v-icon large color="green darken-4 mr-2">fas fa-smile-beam</v-icon>Success
+            </v-flex>
           </v-card-title>
           <v-card-text>
             <v-flex xs10 offset-xs1>
-              <v-alert :value="true" type="success">{{successMsg}}</v-alert>
+              <p>{{successMsg}}</p>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
@@ -136,36 +140,27 @@ export default {
       eventCards: [
         {
           title: "..made coffee?",
-          src: "https://i.ytimg.com/vi/ZpBlgWDQVU0/hqdefault.jpg",
-          flex: 4,
+          src: require("@/assets/coffee-event.jpg"),
           id: "madeCoffee"
         },
         {
           title: "..emptied the dishwasher?",
-          src:
-            "https://www.wikihow.com/images/thumb/d/dc/Drain-a-Dishwasher-Step-1-Version-7.jpg/aid1404801-v4-728px-Drain-a-Dishwasher-Step-1-Version-7.jpg",
-          flex: 3,
+          src: require("@/assets/dishwasher-empty.jpeg"),
           id: "emptiedDishwasher"
         },
         {
           title: "..filled the dishwasher?",
-          src:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuY4NyVik_4S-J8Oc_FWRplzSwYEW-yjQMpuqmfnxL4vEJ9n5XVA",
-          flex: 4,
+          src: require("@/assets/dishwasher.jpeg"),
           id: "filledDishwasher"
         },
         {
           title: "..opened the office?",
-          src:
-            "http://caretobedifferent.co.uk/wp-content/uploads/2013/10/Arriving-early-300x199.jpg",
-          flex: 3,
+          src: require("@/assets/early-office.jpeg"),
           id: "openedOffice"
         },
         {
           title: "..closed the office?",
-          src:
-            "https://careers.workopolis.com/wp-content/uploads/sites/5/2016/08/iStock_75895989_SMALL.jpg",
-          flex: 4,
+          src: require("@/assets/late-office.jpeg"),
           id: "closedOffice"
         }
       ],

@@ -2,23 +2,27 @@
   <v-container fluid>
     <v-dialog v-model="dialog" width="500">
       <v-card v-if="error && !success">
-        <v-card-title class="headline red lighten-3" primary-title>
-          <v-flex xs8 offset-xs1>Error</v-flex>
+        <v-card-title class="headline red lighten-4" primary-title>
+          <v-flex xs10 offset-xs1>
+            <v-icon large color="red accent-3 mr-2">fas fa-exclamation-circle</v-icon>Whoopsie! Error
+          </v-flex>
         </v-card-title>
         <v-card-text>
           <v-flex xs10 offset-xs1>
-            <v-alert :value="true" type="error">{{errorMsg}}</v-alert>
+            <p>{{errorMsg}}</p>
           </v-flex>
           <v-divider></v-divider>
         </v-card-text>
       </v-card>
       <v-card v-if="!error && success">
         <v-card-title class="headline green lighten-3" primary-title>
-          <v-flex xs8 offset-xs1>Success</v-flex>
+          <v-flex xs10 offset-xs1>
+            <v-icon large color="green darken-4 mr-2">fas fa-smile-beam</v-icon>Success
+          </v-flex>
         </v-card-title>
         <v-card-text>
           <v-flex xs10 offset-xs1>
-            <v-alert :value="true" type="success">{{successMsg}}</v-alert>
+            <p>{{successMsg}}</p>
           </v-flex>
           <v-divider></v-divider>
         </v-card-text>
@@ -144,22 +148,33 @@ export default {
     submit() {
       this.dialog = true;
       if (this.pin && this.name && this.avatar) {
-        if (!this.heroes.find(x => x.name == this.name)) {
-          let h = {
-            name: this.name,
-            avatar: this.avatar,
-            pin: this.pin
-          };
-          this.$store.dispatch("createHero", h);
-          this.success = true;
-          this.successMsg = "Cool, creating your hero!";
+        if (
+          !this.heroes.find(
+            x => x.name.toLowerCase() == this.name.toLowerCase()
+          )
+        ) {
+          if (!isNaN(this.pin)) {
+            console.log("Pin not a number: ");
+            let h = {
+              name: this.name,
+              avatar: this.avatar,
+              pin: this.pin
+            };
+            this.$store.dispatch("createHero", h);
+            this.success = true;
+            this.successMsg = "Cool, creating your hero!";
+          } else {
+            this.error = true;
+            this.errorMsg = "Make sure you enter a number (0-9) for a pin.";
+          }
         } else {
           this.error = true;
           this.errorMsg = "That name is already taken!";
         }
       } else {
         this.error = true;
-        this.errorMsg = "Please enter all information!";
+        this.errorMsg =
+          "Please enter all the required information information!";
       }
     }
   },
@@ -168,15 +183,17 @@ export default {
       if (val) {
         setTimeout(() => {
           this.success = !this.success;
+          this.dialog = false;
           this.$router.replace("/");
-        }, 1500);
+        }, 2000);
       }
     },
     error(val) {
       if (val) {
         setTimeout(() => {
           this.error = !this.error;
-        }, 1500);
+          this.dialog = false;
+        }, 2000);
       }
     }
   }

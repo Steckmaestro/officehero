@@ -10,7 +10,7 @@
         <v-btn to="/" flat small depressed dark color="orange darken-4">
           <v-icon dark>fab fa-elementor</v-icon>
         </v-btn>
-        <v-btn flat small depressed dark color="amber accent-4">
+        <v-btn to="/statistics" flat small depressed dark color="amber accent-4">
           <v-icon dark>fas fa-crown</v-icon>
         </v-btn>
         <v-btn to="/add" flat small depressed dark color="orange darken-4">
@@ -39,6 +39,7 @@ export default {
 <style scoped>
 body {
   overflow: hidden;
+  cursor: none;
 }
 </style>
 

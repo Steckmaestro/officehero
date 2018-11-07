@@ -1,16 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import { CLIENT_RENEG_LIMIT } from "tls";
-
-// axios.defaults.withCredentials = true;
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     events: [],
-    heroes: []
+    heroes: [],
+    mostLoved: null,
+    mostCoffee: null
   },
   mutations: {
     setEvents(state, events) {
@@ -27,6 +26,12 @@ export default new Vuex.Store({
     },
     setHeroes(state, heroes) {
       state.heroes = heroes;
+    },
+    setMostLove(state, data) {
+      state.mostLoved = data;
+    },
+    setMostCoffee(state, data) {
+      state.mostCoffee = data;
     }
   },
   actions: {
@@ -41,6 +46,18 @@ export default new Vuex.Store({
           // console.log("Response ", response);
           commit("setHeroes", response.data);
         });
+        axios
+          .get("http://localhost:3025/heroes/withmostlove")
+          .then(response => {
+            // console.log("Response most love: ", response);
+            commit("setMostLove", response.data);
+          });
+        axios
+          .get("http://localhost:3025/heroes/withmostcoffee")
+          .then(response => {
+            // console.log("Response most love: ", response);
+            commit("setMostCoffee", response.data);
+          });
       } catch (e) {
         console.log("Axios ERROR: ", e);
       }
@@ -77,6 +94,28 @@ export default new Vuex.Store({
       } catch (e) {
         console.log("Axios ERROR: ", e);
       }
+    },
+    refreshLove({ commit }) {
+      try {
+        axios
+          .get("http://localhost:3025/heroes/withmostlove")
+          .then(response => {
+            commit("setMostLove", response.data);
+          });
+      } catch (e) {
+        console.log("Axios ERROR: ", e);
+      }
+    },
+    refreshCoffee({ commit }) {
+      try {
+        axios
+          .get("http://localhost:3025/heroes/withmostcoffee")
+          .then(response => {
+            commit("setMostCoffee", response.data);
+          });
+      } catch (e) {
+        console.log("Axios ERROR: ", e);
+      }
     }
   },
   getters: {
@@ -84,9 +123,7 @@ export default new Vuex.Store({
       if (state.heroes.length > 0) {
         let _events = state.events;
         for (let i = 0; i < _events.length; i++) {
-          let hero = state.heroes.find(
-            x => x.id === _events[i].heroId
-          );
+          let hero = state.heroes.find(x => x.id === _events[i].heroId);
           _events[i]["heroName"] = hero.name;
           _events[i]["heroAvatar"] = hero.avatar;
           let icon, color;
@@ -136,6 +173,12 @@ export default new Vuex.Store({
       } else {
         return [];
       }
+    },
+    mostLoved(state) {
+      return state.mostLoved;
+    },
+    mostCoffee(state) {
+      return state.mostCoffee;
     }
   }
 });

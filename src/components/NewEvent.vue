@@ -9,15 +9,7 @@
           </v-card-title>
           <v-card-text>
             <v-flex xs8 offset-xs1>
-              <v-text-field
-                v-model="pin"
-                :append-icon="show1 ? 'visibility_off' : 'visibility'"
-                :type="show1 ? 'text' : 'password'"
-                name="PIN"
-                label="PIN"
-                hint="Enter your pin"
-                @click:append="show1 = !show1"
-              ></v-text-field>
+              <v-text-field v-model="pin" :append-icon="show1 ? 'visibility_off' : 'visibility'" :type="show1 ? 'text' : 'password'" name="PIN" label="PIN" hint="Enter your pin" @click:append="show1 = !show1"></v-text-field>
             </v-flex>
             <v-divider></v-divider>
           </v-card-text>
@@ -64,21 +56,8 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <v-container fluid grid-list-md>
-            <v-data-iterator
-              :items="eventCards"
-              :rows-per-page-items="rowsPerPageItems"
-              :pagination.sync="pagination"
-              content-tag="v-layout"
-              row
-              wrap=""
-            >
-              <v-flex
-                slot="item"
-                slot-scope="props"
-                sm4
-                @click="selectCard(props.item)"
-                style="cursor: pointer;"
-              >
+            <v-data-iterator :items="eventCards" :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination" content-tag="v-layout" row wrap="">
+              <v-flex slot="item" slot-scope="props" sm4 @click="selectCard(props.item)" style="cursor: pointer;">
                 <v-card>
                   <v-card-title>
                     <h4>{{ props.item.title }}</h4>

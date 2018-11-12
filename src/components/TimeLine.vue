@@ -3,13 +3,7 @@
     <v-layout>
       <v-flex xs12 v-if="events">
         <v-timeline dense clipped align-top>
-          <v-timeline-item
-            v-for="(id, i) in events"
-            :color="id.color"
-            :key="i"
-            :icon="id.icon"
-            large
-          >
+          <v-timeline-item v-for="(id, i) in events" :color="id.color" :key="i" :icon="id.icon" large>
             <v-card :color="id.color" class="pa-0 ma-0" dark tile>
               <v-card-title class="font-weight-light subheading">
                 <v-flex xs8>
@@ -31,31 +25,14 @@
                   <span class="font-weight-bold">{{id.name}}</span>
                 </v-flex>
                 <v-flex xs4>
-                  <v-btn
-                    block
-                    dark
-                    large
-                    color="red accent-4"
-                    @click="addLove(id.id)"
-                  >Send love
+                  <v-btn block dark large color="red accent-4" @click="addLove(id.id)">Send love
                     <v-icon dark right>fas fa-hand-holding-heart</v-icon>
                   </v-btn>
                 </v-flex>
               </v-card-title>
               <v-card-text class="white text--primary">
                 <div class="text-xs-center">
-                  <v-rating
-                    v-model="id.love"
-                    :length="length"
-                    :empty-icon="emptyIcon"
-                    :full-icon="fullIcon"
-                    :half-icon="halfIcon"
-                    :half-increments="halfIncrements"
-                    :hover="hover"
-                    :readonly="readonly"
-                    color="red accent-4"
-                    background-color="grey lighten-1"
-                  ></v-rating>
+                  <v-rating v-model="id.love" :length="length" :empty-icon="emptyIcon" :full-icon="fullIcon" :half-icon="halfIcon" :half-increments="halfIncrements" :hover="hover" :readonly="readonly" color="red accent-4" background-color="grey lighten-1"></v-rating>
                 </div>
               </v-card-text>
             </v-card>

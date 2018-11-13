@@ -45,7 +45,7 @@ export default {
           src: require("@/assets/hero.jpeg"),
           flex: 6,
           icon: "fas fa-user-plus",
-          to: "/hero"
+          to: "hero"
         }
       ]
     };

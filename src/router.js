@@ -20,7 +20,9 @@ export default new Router({
     {
       path: "/event",
       name: "event",
-      component: NewEvent
+      component: NewEvent, 
+      // Injecting default props so we can use component dynamically in Add.vue
+      props: { i_e1: 1, i_selectedHero: null}
     },
     {
       path: "/statistics",
@@ -36,15 +38,6 @@ export default new Router({
       path: "/add",
       name: "add",
       component: Add
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
     }
   ]
 });

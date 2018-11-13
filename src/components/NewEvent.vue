@@ -4,19 +4,13 @@
       <v-dialog v-model="dialog" width="500">
         <v-card v-if="!error && !success">
           <v-card-title class="headline grey lighten-3" primary-title>
-            <v-flex xs8 offset-xs1 v-if="selectedHero">{{selectedHero.name}}, Enter PIN</v-flex>
-            <v-flex xs8 offset-xs1 v-else>Enter PIN</v-flex>
+            <v-flex xs8 offset-xs1 v-if="selectedHero">Are you {{selectedHero.name}}?</v-flex>
           </v-card-title>
-          <v-card-text>
-            <v-flex xs8 offset-xs1>
-              <v-text-field v-model="pin" :append-icon="show1 ? 'visibility_off' : 'visibility'" :type="show1 ? 'text' : 'password'" name="PIN" label="PIN" hint="Enter your pin" @click:append="show1 = !show1"></v-text-field>
-            </v-flex>
-            <v-divider></v-divider>
-          </v-card-text>
+          <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn to="/add" class="body-2 primary--text">Cancel</v-btn>
-            <v-btn color="primary" @click="submit">Submit</v-btn>
+            <v-btn to="/add" class="body-2 primary--text">Nope,</v-btn>
+            <v-btn color="primary" @click="submit">Yes!</v-btn>
           </v-card-actions>
         </v-card>
         <v-card v-if="error && !success">
@@ -103,15 +97,20 @@
 
 <script>
 export default {
+  props: {
+    i_e1: Number,
+    i_selectedHero: Object
+  },
   data() {
     return {
+      e1: this.i_e1,
+      selectedHero: this.i_selectedHero,
       dialog: false,
       success: false,
       sucessMsg: null,
       error: false,
       errorMsg: null,
       pin: null,
-      e1: 0,
       rowsPerPageItems: [1, 3, 6],
       pagination: {
         rowsPerPage: 3
@@ -144,7 +143,6 @@ export default {
         }
       ],
       selectedEvent: false,
-      selectedHero: null,
       show1: false
     };
   },
@@ -175,13 +173,6 @@ export default {
       this.dialog = !this.dialog;
     },
     submit() {
-      console.log(this.selectedHero.pin);
-      console.log(this.pin);
-      if (this.selectedHero.pin != this.pin) {
-        this.error = true;
-        this.errorMsg = "Wrong pin entered!";
-      }
-      if (this.selectedHero.pin == this.pin) {
         let e = {
           name: this.selectedEvent.title.replace("..", "").replace("?", "!"),
           created: `${new Date().getFullYear()}-${(
@@ -193,12 +184,10 @@ export default {
           love: 0,
           heroId: this.selectedHero.id
         };
-        console.log("Event: ", e);
         this.success = true;
         this.successMsg = "Cool, storing your event, hero!";
         this.$store.dispatch("createEvent", e);
       }
-    }
   },
   watch: {
     success(val) {

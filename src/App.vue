@@ -5,6 +5,18 @@
                 <span>OFFICE</span>
                 <span class="font-weight-light primary--text">HERO</span>
             </v-toolbar-title>
+            <v-btn class="ml-3" dark color="brown darken-3">
+                <v-icon small>add</v-icon>
+                <v-icon>
+                    mdi-coffee
+                </v-icon>
+            </v-btn>
+            <v-btn dark color="light-blue darken-4">
+                <v-icon small>add</v-icon>
+                <v-icon>
+                    fas fa-building
+                </v-icon>
+            </v-btn>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn to="/" flat small depressed dark color="orange darken-4">
@@ -22,7 +34,7 @@
             <router-view />
         </v-content>
     </v-app>
-</template>F
+</template>
 <script>
 export default {
     name: "App",
@@ -34,7 +46,7 @@ export default {
 </script>
 <style scoped>
 body {
-    overflow: hidden;
-    cursor: none;
+  overflow: hidden;
+  cursor: none;
 }
 </style>

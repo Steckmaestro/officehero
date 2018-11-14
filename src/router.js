@@ -22,7 +22,11 @@ export default new Router({
       name: "event",
       component: NewEvent, 
       // Injecting default props so we can use component dynamically in Add.vue
-      props: { i_e1: 1, i_selectedHero: null}
+      // props: { i_e1: 1, i_selectedHero: null}
+      props: (route) => ({
+        i_e1: route.query.e1,
+        i_selectedEvent: route.query.selectedEvent
+      })
     },
     {
       path: "/statistics",

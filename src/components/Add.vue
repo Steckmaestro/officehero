@@ -38,7 +38,7 @@ export default {
           src: require("@/assets/coffee-event.jpg"),
           flex: 6,
           icon: "mdi-calendar-plus",
-          to: "event"
+          to: { path: "/event", query: { e1: 1, selectedEvent: null } }
         },
         {
           title: "Add new hero",

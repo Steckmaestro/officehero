@@ -5,18 +5,18 @@
                 <span>OFFICE</span>
                 <span class="font-weight-light primary--text">HERO</span>
             </v-toolbar-title>
-            <v-btn class="ml-3" dark color="brown darken-3">
+            <v-btn :to="{path: 'event', query: {e1: 2, selectedEvent: 'madeCoffee' }}" class="ml-4" flat dark color="brown darken-3">
                 <v-icon small>add</v-icon>
                 <v-icon>
                     mdi-coffee
                 </v-icon>
             </v-btn>
-            <v-btn dark color="light-blue darken-4">
+            <!-- <v-btn dark color="light-blue darken-4">
                 <v-icon small>add</v-icon>
                 <v-icon>
                     fas fa-building
                 </v-icon>
-            </v-btn>
+            </v-btn> -->
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn to="/" flat small depressed dark color="orange darken-4">
@@ -44,9 +44,9 @@ export default {
     }
 };
 </script>
-<style scoped>
+<style>
 body {
   overflow: hidden;
-  cursor: none;
+  cursor: none !important;
 }
 </style>

@@ -4,19 +4,20 @@
       <v-dialog v-model="dialog" width="500">
         <v-card v-if="!error && !success">
           <v-card-title class="headline grey lighten-3" primary-title>
-            <v-flex xs8 offset-xs1 v-if="selectedHero">Are you {{selectedHero.name}}?</v-flex>
+            <v-flex xs8 offset-xs1 v-if="selectedHero">Are you {{ selectedHero.name }}?</v-flex>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn to="/add" class="body-2 primary--text">Nope,</v-btn>
+            <v-btn to="/add" class="body-2 primary--text">Nope, sorry</v-btn>
             <v-btn color="primary" @click="submit">Yes!</v-btn>
           </v-card-actions>
         </v-card>
         <v-card v-if="error && !success">
           <v-card-title class="headline red lighten-3" primary-title>
             <v-flex xs10 offset-xs1>
-              <v-icon large color="red accent-3 mr-2">fas fa-exclamation-circle</v-icon>Whoopsie! Error
+              <v-icon large color="red accent-3 mr-2">fas fa-exclamation-circle</v-icon>
+              Whoopsie! Error
             </v-flex>
           </v-card-title>
           <v-card-text>
@@ -51,7 +52,7 @@
         <v-stepper-content step="1">
           <v-container fluid grid-list-md>
             <v-data-iterator :items="eventCards" :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination" content-tag="v-layout" row wrap="">
-              <v-flex slot="item" slot-scope="props" sm4 @click="selectCard(props.item)" style="cursor: pointer;">
+              <v-flex slot="item" slot-scope="props" sm4 @click="selectCard(props.item);" style="cursor: pointer;">
                 <v-card>
                   <v-card-title>
                     <h4>{{ props.item.title }}</h4>
@@ -65,29 +66,35 @@
           </v-container>
         </v-stepper-content>
         <v-stepper-content step="2">
-          <v-layout row>
-            <v-flex xs10 offset-xs1>
-              <v-list>
-                <v-list-tile v-for="item in heroes" :key="item.id" avatar @click="selectHero(item)">
-                  <v-list-tile-avatar title="" v-if="item.avatar == 'dwarf'" size="50">
-                    <img src="../assets/dwarf_av.jpg" alt="Dwarf Avatar">
-                  </v-list-tile-avatar>
-                  <v-list-tile-avatar title="" v-if="item.avatar == 'goblin'" size="50">
-                    <img src="../assets/goblin_av.jpg" alt="Goblin Avatar">
-                  </v-list-tile-avatar>
-                  <v-list-tile-avatar title="" v-if="item.avatar == 'human'" size="50">
-                    <img src="../assets/human_av.jpg" alt="Human Avatar">
-                  </v-list-tile-avatar>
-                  <v-list-tile-avatar title="" v-if="item.avatar == 'peon'" size="50">
-                    <img src="../assets/peon_av.jpg" alt="Peon Avatar">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content class="ml-3">
-                    <v-list-tile-title v-text="item.name" avatar></v-list-tile-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-flex>
-          </v-layout>
+          <v-container fluid grid-list-md>
+            <v-data-iterator :items="heroes" :rows-per-page-items="rowsPerPageItemsHeroes" :pagination.sync="paginationHeroes" content-tag="v-layout" row wrap>
+              <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg3>
+                <v-card>
+                  <v-list two-line="">
+                    <v-list-tile avatar>
+                      <v-list-tile-avatar v-if="props.item.avatar == 'dwarf'" size="70">
+                        <img src="../assets/dwarf_av.jpg" alt="Dwarf Avatar" />
+                      </v-list-tile-avatar>
+                      <v-list-tile-avatar v-if="props.item.avatar == 'goblin'" size="70">
+                        <img src="../assets/goblin_av.jpg" alt="Goblin Avatar" />
+                      </v-list-tile-avatar>
+                      <v-list-tile-avatar v-if="props.item.avatar == 'human'" size="70">
+                        <img src="../assets/human_av.jpg" alt="Human Avatar" />
+                      </v-list-tile-avatar>
+                      <v-list-tile-avatar v-if="props.item.avatar == 'peon'" size="70">
+                        <img src="../assets/peon_av.jpg" alt="Peon Avatar" />
+
+                      </v-list-tile-avatar>
+                      <v-list-tile-content class="ml-3">
+                        <v-list-tile-sub-title v-text="props.item.name">
+                        </v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                </v-card>
+              </v-flex>
+            </v-data-iterator>
+          </v-container>
           <v-btn to="/add" fixed right bottom class="body-2 primary--text">Cancel</v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -99,12 +106,21 @@
 export default {
   props: {
     i_e1: Number,
-    i_selectedHero: Object
+    i_selectedEvent: String
+  },
+  created() {
+    if (this.i_selectedEvent) {
+      console.log("Calling init");
+      console.log(this.i_selectedEvent);
+      this.selectedEvent = this.eventCards.find(x => {
+        return x.id == this.i_selectedEvent;
+      });
+    }
   },
   data() {
     return {
-      e1: this.i_e1,
-      selectedHero: this.i_selectedHero,
+      e1: Number(this.i_e1),
+      selectedEvent: null,
       dialog: false,
       success: false,
       sucessMsg: null,
@@ -112,8 +128,12 @@ export default {
       errorMsg: null,
       pin: null,
       rowsPerPageItems: [1, 3, 6],
+      rowsPerPageItemsHeroes: [4, 8, 12],
       pagination: {
         rowsPerPage: 3
+      },
+      paginationHeroes: {
+        rowsPerPage: 4
       },
       eventCards: [
         {
@@ -142,7 +162,7 @@ export default {
           id: "closedOffice"
         }
       ],
-      selectedEvent: false,
+      selectedHero: false,
       show1: false
     };
   },
@@ -162,6 +182,7 @@ export default {
     }
   },
   methods: {
+    initEvent() {},
     selectCard(id) {
       console.log(id);
       this.selectedEvent = id;
@@ -173,21 +194,21 @@ export default {
       this.dialog = !this.dialog;
     },
     submit() {
-        let e = {
-          name: this.selectedEvent.title.replace("..", "").replace("?", "!"),
-          created: `${new Date().getFullYear()}-${(
-            "0" +
-            (new Date().getMonth() + 1)
-          ).slice(-2)}-${("0" + new Date().getDate()).slice(-2)} ${(
-            "0" + new Date().getHours()
-          ).slice(-2)}:${("0" + new Date().getMinutes()).slice(-2)}`,
-          love: 0,
-          heroId: this.selectedHero.id
-        };
-        this.success = true;
-        this.successMsg = "Cool, storing your event, hero!";
-        this.$store.dispatch("createEvent", e);
-      }
+      let e = {
+        name: this.selectedEvent.title.replace("..", "").replace("?", "!"),
+        created: `${new Date().getFullYear()}-${(
+          "0" +
+          (new Date().getMonth() + 1)
+        ).slice(-2)}-${("0" + new Date().getDate()).slice(-2)} ${(
+          "0" + new Date().getHours()
+        ).slice(-2)}:${("0" + new Date().getMinutes()).slice(-2)}`,
+        love: 0,
+        heroId: this.selectedHero.id
+      };
+      this.success = true;
+      this.successMsg = "Cool, storing your event, hero!";
+      this.$store.dispatch("createEvent", e);
+    }
   },
   watch: {
     success(val) {
